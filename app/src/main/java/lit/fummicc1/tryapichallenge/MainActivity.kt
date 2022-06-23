@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.android.synthetic.main.item_todo_list.*
 import kotlinx.coroutines.launch
 import lit.fummicc1.tryapichallenge.databinding.ActivityMainBinding
 import retrofit2.Retrofit
@@ -36,6 +37,18 @@ class MainActivity : AppCompatActivity() {
 
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(baseContext)
+
+            createTodoButton.setOnClickListener {
+                lifecycleScope.launch {
+                    val todo = Todo(addTodoTextView.text.toString())
+                    apiService.createTodo(todo)
+                    val todoList = apiService.getTodoList()
+                    for (todo in todoList) {
+                        Log.d("MainActivity", "$todo")
+                    }
+                    adapter.updateTodos(todoList)
+                }
+            }
         }
 
         lifecycleScope.launch {
@@ -43,7 +56,6 @@ class MainActivity : AppCompatActivity() {
             for (todo in todoList) {
                 Log.d("MainActivity", "$todo")
             }
-//            TODO("ここを実装しよう。実装できたらこの行を削除してね")
             adapter.updateTodos(todoList)
         }
     }

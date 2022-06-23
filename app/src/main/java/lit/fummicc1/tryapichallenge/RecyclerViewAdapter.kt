@@ -19,13 +19,11 @@ class RecyclerViewAdapter(val todos: MutableList<Todo>) :
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemTodoListBinding.inflate(layoutInflater, parent, false)
         return ViewHolder(binding.root)
-//        TODO("ここを実装しよう。実装できたらこの行を削除してね")
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val todo = todos[position]
         holder.textView.text = todo.title
-//        TODO("ここを実装しよう。実装できたらこの行を削除してね")
     }
 
     override fun getItemCount(): Int {
